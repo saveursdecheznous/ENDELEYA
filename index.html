@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#007FFF">
+<title>ENDELEYA</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:#f4f7fb;color:#172334;
+}
+header{
+ background:#fff;padding:18px 20px;
+ display:flex;justify-content:space-between;align-items:center;
+ border-bottom:1px solid #e7edf4;
+ position:sticky;top:0;z-index:10
+}
+.logo{font-size:25px;font-weight:900;color:#007fff;letter-spacing:1px}
+.logo span{color:#f2c900}
+.profile{background:#edf5ff;border-radius:50%;padding:10px;color:#007fff;font-weight:bold}
+main{max-width:700px;margin:auto;padding:18px}
+.welcome{
+ background:linear-gradient(135deg,#007fff,#0057bd);
+ color:white;border-radius:22px;padding:24px;
+}
+.welcome h1{font-size:26px;margin-bottom:10px}
+.welcome p{font-size:14px;line-height:1.6;color:#eaf4ff}
+.welcome button{
+ margin-top:18px;background:#f7d617;color:#172334;
+ border:none;padding:13px 18px;border-radius:12px;font-weight:bold
+}
+.section-title{margin:25px 0 14px;font-size:19px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{
+ background:white;border-radius:17px;padding:17px;
+ border:1px solid #e9eef5;min-height:135px;
+ cursor:pointer;transition:.2s;
+}
+.card:active{transform:scale(.98)}
+.icon{font-size:28px;margin-bottom:12px}
+.card h3{font-size:15px;margin-bottom:7px}
+.card p{font-size:12px;color:#718096;line-height:1.5}
+.blue{border-top:4px solid #007fff}
+.yellow{border-top:4px solid #f7d617}
+.red{border-top:4px solid #ce1028}
+.white{border-top:4px solid #d9e4ef}
+.talenti{
+ margin-top:20px;background:#fff;border-radius:18px;padding:18px;
+ border:1px solid #e7edf4
+}
+.talenti-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.talenti-icon{background:#eaf3ff;padding:12px;border-radius:12px;font-size:22px}
+.talenti p{color:#718096;font-size:13px;line-height:1.6}
+.talenti button{
+ margin-top:12px;background:#007fff;color:white;border:0;
+ padding:12px;border-radius:10px;width:100%;font-weight:bold
+}
+.bottom{
+ display:flex;justify-content:space-around;background:white;
+ border-top:1px solid #e7edf4;position:sticky;bottom:0;padding:12px 5px;
+}
+.bottom button{border:0;background:none;color:#66758a;font-size:11px}
+.bottom button span{display:block;font-size:20px;margin-bottom:4px}
+.page{display:none}
+.page.active{display:block}
+.back{border:0;background:none;color:#007fff;font-weight:bold;margin:5px 0 20px}
+.box{
+ background:white;padding:18px;border-radius:17px;margin-bottom:13px;
+ border:1px solid #e7edf4
+}
+input,textarea,select{
+ width:100%;padding:13px;margin:8px 0;border:1px solid #dce5ef;
+ border-radius:10px;font-size:15px;background:white
+}
+.action{
+ width:100%;padding:14px;border:0;border-radius:11px;
+ background:#007fff;color:white;font-weight:bold;margin-top:10px
+}
+.muted{font-size:13px;color:#718096;line-height:1.6}
+.tag{display:inline-block;background:#edf5ff;color:#007fff;padding:6px 10px;border-radius:20px;font-size:11px;margin:5px 3px}
+#result{white-space:pre-wrap;line-height:1.7;margin-top:14px}
+footer{text-align:center;color:#95a2b3;font-size:11px;padding:20px}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">ENDELEYA<span>.</span></div>
+ <div class="profile">E</div>
+</header>
+
+<main>
+
+<!-- ACCUEIL -->
+<div id="home" class="page active">
+ <section class="welcome">
+  <h1>Avance. Développe. Réussis.</h1>
+  <p>Ton espace pour développer ton activité, trouver des opportunités et construire tes revenus.</p>
+  <button onclick="openPage('business')">Commencer maintenant →</button>
+ </section>
+
+ <h2 class="section-title">Que veux-tu faire aujourd'hui ?</h2>
+
+ <div class="grid">
+  <div class="card blue" onclick="openPage('vitrine')">
+   <div class="icon">🏪</div>
+   <h3>Mon business</h3>
+   <p>Crée ton espace professionnel et présente tes produits.</p>
+  </div>
+
+  <div class="card yellow" onclick="openPage('ideas')">
+   <div class="icon">💡</div>
+   <h3>Idées de business</h3>
+   <p>Découvre des idées adaptées à tes moyens.</p>
+  </div>
+
+  <div class="card red" onclick="openPage('income')">
+   <div class="icon">💰</div>
+   <h3>Générer des revenus</h3>
+   <p>Explore des pistes pour gagner de l'argent.</p>
+  </div>
+
+  <div class="card white" onclick="openPage('marketing')">
+   <div class="icon">📢</div>
+   <h3>Marketing & visibilité</h3>
+   <p>Fais connaître ton activité et attire des clients.</p>
+  </div>
+ </div>
+
+ <div class="talenti">
+  <div class="talenti-head">
+   <div class="talenti-icon">✨</div>
+   <div><h3>TALENTI</h3><small>Ton assistant intelligent</small></div>
+  </div>
+  <p>Besoin d'une idée, d'un texte publicitaire ou de conseils pour ton activité ? TALENTI est ton espace d'assistance.</p>
+  <button onclick="openPage('talenti')">Discuter avec TALENTI</button>
+ </div>
+</div>
+
+<!-- BUSINESS -->
+<div id="business" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">Développer mon business</h2>
+ <div class="box">
+  <h3>Construis ta présence en ligne</h3>
+  <p class="muted">Présente ton activité, tes produits ou tes services et facilite la prise de contact avec tes clients.</p>
+  <button class="action" onclick="openPage('vitrine')">Créer ma vitrine</button>
+ </div>
+ <div class="box">
+  <h3>Développe ton activité</h3>
+  <p class="muted">Travaille ta visibilité, prépare tes offres et organise tes contacts.</p>
+  <button class="action" onclick="openPage('marketing')">Découvrir les outils marketing</button>
+ </div>
+</div>
+
+<!-- VITRINE -->
+<div id="vitrine" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">Ma vitrine</h2>
+ <div class="box">
+  <p class="muted">Commence à préparer la présentation de ton activité.</p>
+  <input id="shopName" placeholder="Nom de ton business">
+  <input id="shopType" placeholder="Type d'activité (ex : mode, restauration)">
+  <textarea id="shopDesc" rows="4" placeholder="Décris ton activité, tes produits ou tes services"></textarea>
+  <input id="shopPhone" placeholder="Numéro WhatsApp (ex : 243...)">
+  <button class="action" onclick="saveShop()">Enregistrer ma vitrine</button>
+ </div>
+ <div class="box" id="shopResult">
+  <h3>Ma présentation</h3>
+  <p class="muted">Ta présentation apparaîtra ici après l'enregistrement.</p>
+ </div>
+</div>
+
+<!-- IDEES -->
+<div id="ideas" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">Idées de business</h2>
+ <div class="box">
+  <p class="muted">Quelques pistes pour démarrer avec des moyens limités.</p>
+ </div>
+ <div class="box">
+  <span class="tag">Petit budget</span>
+  <h3>🍲 Cuisine sur commande</h3>
+  <p class="muted">Prépare des repas à domicile et travaille sur commande pour limiter les dépenses.</p>
+ </div>
+ <div class="box">
+  <span class="tag">Service</span>
+  <h3>📱 Gestion des réseaux sociaux</h3>
+  <p class="muted">Propose aux petites entreprises de créer leurs publications et vidéos courtes.</p>
+ </div>
+ <div class="box">
+  <span class="tag">Commerce</span>
+  <h3>🛍️ Vente en ligne ciblée</h3>
+  <p class="muted">Choisis une catégorie de produits et commence par vendre sur commande.</p>
+ </div>
+ <div class="box">
+  <span class="tag">Local</span>
+  <h3>🚚 Services de proximité</h3>
+  <p class="muted">Repère un besoin dans ton quartier et propose un service simple pour y répondre.</p>
+ </div>
+</div>
+
+<!-- REVENUS -->
+<div id="income" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">Générer des revenus</h2>
+ <div class="box">
+  <h3>Tu veux commencer à gagner de l'argent ?</h3>
+  <p class="muted">L'objectif est de partir de tes compétences, de tes moyens et des besoins réels autour de toi.</p>
+ </div>
+ <div class="box">
+  <h3>1. Vendre un service</h3>
+  <p class="muted">Montage vidéo, rédaction, livraison, cuisine, coiffure, assistance ou autres compétences.</p>
+ </div>
+ <div class="box">
+  <h3>2. Vendre un produit</h3>
+  <p class="muted">Identifie un produit demandé et teste sa vente avant d'investir beaucoup.</p>
+ </div>
+ <div class="box">
+  <h3>3. Trouver des clients</h3>
+  <p class="muted">Commence par ton entourage, WhatsApp, les groupes locaux et les réseaux sociaux.</p>
+ </div>
+</div>
+
+<!-- MARKETING -->
+<div id="marketing" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">Marketing & visibilité</h2>
+ <div class="box">
+  <h3>Fais connaître ton activité</h3>
+  <p class="muted">Une bonne communication permet de présenter ton offre, montrer sa valeur et donner envie de te contacter.</p>
+ </div>
+ <div class="box">
+  <h3>📲 WhatsApp</h3>
+  <p class="muted">Utilise ton statut et partage tes produits, prix, nouveautés et témoignages.</p>
+ </div>
+ <div class="box">
+  <h3>🎥 Vidéos courtes</h3>
+  <p class="muted">Montre le produit, le résultat, les coulisses et l'expérience du client.</p>
+ </div>
+ <div class="box">
+  <h3>🎯 Offre claire</h3>
+  <p class="muted">Explique ce que tu vends, à qui cela s'adresse et comment commander.</p>
+ </div>
+</div>
+
+<!-- TALENTI -->
+<div id="talenti" class="page">
+ <button class="back" onclick="openPage('home')">← Accueil</button>
+ <h2 class="section-title">✨ TALENTI</h2>
+ <div class="box">
+  <h3>Ton assistant business</h3>
+  <p class="muted">TALENTI t'aidera à trouver des idées, préparer tes offres, écrire des publicités et réfléchir à tes stratégies.</p>
+  <textarea id="talentiQuestion" rows="4" placeholder="De quoi as-tu besoin ?"></textarea>
+  <button class="action" onclick="askTalenti()">Envoyer ma demande</button>
+  <div id="result"></div>
+  <p class="muted" style="margin-top:15px">Version initiale : l'assistant IA sera connecté dans une prochaine étape.</p>
+ </div>
+</div>
+
+</main>
+
+<nav class="bottom">
+ <button onclick="openPage('home')"><span>🏠</span>Accueil</button>
+ <button onclick="openPage('business')"><span>🏪</span>Business</button>
+ <button onclick="openPage('ideas')"><span>💡</span>Idées</button>
+ <button onclick="openPage('income')"><span>💰</span>Revenus</button>
+ <button onclick="openPage('talenti')"><span>✨</span>TALENTI</button>
+</nav>
+
+<footer>ENDELEYA · Avance. Développe. Réussis.</footer>
+
+<script>
+function openPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const page=document.getElementById(id);
+ if(page)page.classList.add('active');
+ window.scrollTo(0,0);
+}
+
+function saveShop(){
+ const name=document.getElementById('shopName').value.trim();
+ const type=document.getElementById('shopType').value.trim();
+ const desc=document.getElementById('shopDesc').value.trim();
+ const phone=document.getElementById('shopPhone').value.trim();
+
+ if(!name){
+  alert("Entre d'abord le nom de ton business.");
+  return;
+ }
+
+ const data={name,type,desc,phone};
+ localStorage.setItem('endeleya_shop',JSON.stringify(data));
+
+ document.getElementById('shopResult').innerHTML=
+ `<h3>${escapeHTML(name)}</h3>
+ <p class="tag">${escapeHTML(type||'Activité')}</p>
+ <p style="margin-top:10px;line-height:1.6">${escapeHTML(desc||'Présentation à compléter')}</p>
+ ${phone?'<p style="margin-top:10px">📱 '+escapeHTML(phone)+'</p>':''}
+ <p class="muted" style="margin-top:12px">Présentation enregistrée sur cet appareil.</p>`;
+ alert("Ta présentation a été enregistrée !");
+}
+
+function escapeHTML(text){
+ return text.replace(/[&<>"']/g,m=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[m]));
+}
+
+function askTalenti(){
+ const q=document.getElementById('talentiQuestion').value.trim();
+ if(!q)return alert("Écris d'abord ta demande.");
+ document.getElementById('result').textContent=
+ "Ta demande est prête : « "+q+" »\n\nLa connexion de TALENTI à une véritable intelligence artificielle sera ajoutée à la prochaine étape.";
+}
+</script>
+</body>
+</html>
