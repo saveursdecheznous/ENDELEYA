@@ -1,243 +1,637 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#007FFF">
-<title>ENDELEYA</title>
+<title>ENDELEYA – Avance. Développe. Réussis.</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--blue:#007FFF;--yellow:#F7D618;--red:#CE1028;--bg:#F4F7FB;--ink:#17243A;--muted:#758196}
+:root{--blue:#007FFF;--yellow:#F7D618;--red:#CE1028;--ink:#17243a;--muted:#6b7890;--bg:#f3f6fb;--white:#fff}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--ink)}
-header{background:white;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e9eef5}
-.logo{font-size:25px;font-weight:900;letter-spacing:1px;color:var(--blue)}
-.logo b{color:var(--yellow)}
-.avatar{background:#eaf3ff;color:var(--blue);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:bold}
-main{max-width:680px;margin:auto;padding:17px 16px 100px}
-.hero{background:linear-gradient(140deg,#007FFF,#0054b5);color:white;padding:24px;border-radius:23px}
-.hero h1{font-size:25px;line-height:1.25;margin:0 0 12px}
-.hero p{font-size:14px;color:#eaf3ff;line-height:1.6}
-.hero button{background:var(--yellow);color:#17243A;margin-top:14px}
-h2{font-size:19px;margin:24px 0 14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:white;padding:17px;border-radius:17px;border:1px solid #e8edf4;min-height:132px;cursor:pointer}
-.card:active{transform:scale(.98)}
-.card .ico{font-size:27px}
-.card h3{font-size:15px;margin:10px 0 6px}
-.card p,.muted{font-size:12px;color:var(--muted);line-height:1.5}
-.card.blue{border-top:4px solid var(--blue)}
-.card.yellow{border-top:4px solid var(--yellow)}
-.card.red{border-top:4px solid var(--red)}
-.card.gray{border-top:4px solid #d9e4f0}
-.assistant{background:white;border:1px solid #e7edf5;border-radius:18px;padding:18px;margin-top:17px}
-.assistant .badge{display:inline-block;background:#eaf3ff;color:var(--blue);padding:8px;border-radius:10px;margin-right:8px}
-button{border:0;border-radius:11px;padding:13px 16px;font-weight:bold;cursor:pointer;background:var(--blue);color:white}
-button.secondary{background:#edf4ff;color:var(--blue)}
-button.yellow{background:var(--yellow);color:var(--ink)}
-button.full{width:100%;margin-top:10px}
-.page{display:none}
-.page.active{display:block}
-.back{background:none;color:var(--blue);padding:5px 0;margin:5px 0 16px}
-.panel{background:white;border:1px solid #e7edf4;padding:18px;border-radius:17px;margin:12px 0}
-input,textarea,select{width:100%;padding:13px;border:1px solid #dce4ee;border-radius:10px;margin:7px 0;font:inherit;background:#fff}
-textarea{min-height:100px;resize:vertical}
-.listitem{background:white;border:1px solid #e7edf4;padding:15px;border-radius:14px;margin:10px 0}
-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5eaf0;display:flex;justify-content:space-around;padding:8px 3px;z-index:10}
-nav button{background:none;color:#65748a;padding:6px;font-size:11px;flex:1}
-nav button span{display:block;font-size:20px;margin-bottom:4px}
-nav button.active{color:var(--blue)}
-footer{text-align:center;padding:20px;color:#99a3b4;font-size:11px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.top{background:var(--blue);color:white;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--yellow)}
+.top small{display:block;font-size:11px;margin-top:3px}
+.container{max-width:1100px;margin:auto;padding:20px}
+.hero{background:linear-gradient(120deg,#007fff,#0752a6);color:white;border-radius:18px;padding:26px;margin-bottom:20px}
+.hero h1{font-size:27px;margin:0 0 9px}
+.hero p{line-height:1.5;margin:0}
+.section-title{font-size:21px;margin:24px 0 13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
+.tile{border:0;background:white;border-radius:15px;padding:19px;text-align:left;box-shadow:0 3px 13px #15294b0c;min-height:120px;color:var(--ink)}
+.tile .emoji{font-size:27px;display:block;margin-bottom:13px}
+.tile b{font-size:15px}
+.tile small{display:block;color:var(--muted);margin-top:6px;line-height:1.4}
+.panel{background:white;padding:20px;border-radius:16px;margin:15px 0;box-shadow:0 3px 14px #15294b0a}
+input,textarea,select{width:100%;padding:13px;border:1px solid #dce3ed;border-radius:9px;margin:6px 0 12px;background:white;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+label{font-size:13px;font-weight:bold;display:block;margin-top:8px}
+.btn{background:var(--blue);color:white;border:0;border-radius:9px;padding:12px 16px;font-weight:bold}
+.btn.yellow{background:var(--yellow);color:#17243a}
+.btn.red{background:var(--red);color:white}
+.btn.light{background:#eaf3ff;color:var(--blue)}
+.btn:disabled{opacity:.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.item{border:1px solid #e7ebf1;padding:13px;border-radius:11px;margin:10px 0}
+.item b{display:block;margin-bottom:5px}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.hidden{display:none!important}
+.nav{display:flex;gap:8px;overflow:auto;padding:12px 0}
+.nav button{white-space:nowrap;border:0;background:white;padding:10px 13px;border-radius:9px;color:var(--ink)}
+.nav button.active{background:var(--blue);color:white}
+.stat{background:#eef5ff;padding:15px;border-radius:12px}
+.stat strong{font-size:25px;display:block;color:var(--blue)}
+#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{width:100%;max-width:420px;background:white;border-radius:20px;padding:27px;box-shadow:0 8px 35px #0001}
+.auth-card h1{text-align:center;color:var(--blue);font-size:30px}
+.auth-card .tag{text-align:center;color:var(--muted);font-size:13px}
+#message{font-size:13px;line-height:1.5;margin:10px 0}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+@media(min-width:750px){.container{padding:28px}.hero{padding:38px}.hero h1{font-size:34px}}
 </style>
 </head>
 <body>
-<header>
- <div class="logo">ENDELEYA<b>.</b></div>
- <div class="avatar" id="avatar">E</div>
-</header>
-<main>
 
-<section class="page active" id="home">
- <div class="hero">
-  <h1>Avance. Développe. Réussis.</h1>
-  <p>Les outils pour développer ton activité, trouver des opportunités et avancer vers tes objectifs.</p>
-  <button class="yellow" onclick="go('business')">Commencer →</button>
- </div>
- <h2>Qu'est-ce que tu veux faire ?</h2>
- <div class="grid">
-  <div class="card blue" onclick="go('business')"><div class="ico">🏪</div><h3>Développer mon business</h3><p>Présenter et faire grandir mon activité.</p></div>
-  <div class="card yellow" onclick="go('ideas')"><div class="ico">💡</div><h3>Trouver une idée</h3><p>Explorer des idées adaptées à mes moyens.</p></div>
-  <div class="card red" onclick="go('income')"><div class="ico">💰</div><h3>Générer des revenus</h3><p>Découvrir comment commencer à gagner.</p></div>
-  <div class="card gray" onclick="go('marketing')"><div class="ico">📢</div><h3>Marketing</h3><p>Promouvoir mes produits et services.</p></div>
-  <div class="card blue" onclick="go('clients')"><div class="ico">👥</div><h3>Mes clients</h3><p>Organiser mes contacts.</p></div>
-  <div class="card yellow" onclick="go('content')"><div class="ico">🎬</div><h3>Mes contenus</h3><p>Préparer mes publications.</p></div>
- </div>
- <div class="assistant">
-  <span class="badge">✨ IA</span><strong>TALENTI</strong>
-  <p class="muted">Ton assistant pour réfléchir, planifier et préparer tes projets.</p>
-  <button class="full" onclick="go('talenti')">Discuter avec TALENTI</button>
+<!-- CONNEXION ET INSCRIPTION -->
+<section id="auth">
+ <div class="auth-card">
+  <h1>ENDELEYA</h1>
+  <p class="tag">Avance. Développe. Réussis.</p>
+  <h2 id="authTitle">Bienvenue !</h2>
+  <p class="muted" id="authInfo">Connecte-toi à ton espace.</p>
+  <div id="nameField" class="hidden">
+   <label>Nom complet</label>
+   <input id="fullName" placeholder="Ton nom complet">
+  </div>
+  <label>Adresse e-mail</label>
+  <input id="email" type="email" placeholder="exemple@email.com">
+  <label>Mot de passe</label>
+  <input id="password" type="password" placeholder="Au moins 6 caractères">
+  <button class="btn" style="width:100%;margin-top:8px" id="authSubmit">Se connecter</button>
+  <p id="message"></p>
+  <p class="muted" style="text-align:center">
+   <span id="switchText">Pas encore de compte ?</span>
+   <button class="btn light" id="switchAuth">Créer un compte</button>
+  </p>
+  <button class="btn light" id="forgot" style="width:100%">Mot de passe oublié ?</button>
  </div>
 </section>
 
-<section class="page" id="business">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Mon Business</h2>
- <div class="panel"><p class="muted">Présente ton activité sur ENDELEYA.</p>
- <input id="bizname" placeholder="Nom de mon activité">
- <input id="bizcategory" placeholder="Secteur (ex. beauté, restauration...)">
- <textarea id="bizdesc" placeholder="Décris ton activité, tes produits ou tes services"></textarea>
- <input id="bizphone" placeholder="WhatsApp avec indicatif pays">
- <button class="full" onclick="saveBusiness()">Enregistrer mon activité</button></div>
- <div class="panel"><h3>Mon profil business</h3><div id="businessSaved" class="muted">Complète le formulaire pour afficher tes informations.</div></div>
-</section>
+<!-- APPLICATION -->
+<div id="app" class="hidden">
+ <header class="top">
+  <div><div class="logo">ENDELEYA<span>.</span></div><small>Avance. Développe. Réussis.</small></div>
+  <button class="btn yellow" id="logout">Déconnexion</button>
+ </header>
 
-<section class="page" id="ideas">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Idées de business</h2>
- <p class="muted">Des pistes à explorer. Choisis celle qui correspond à tes compétences et à tes moyens.</p>
- <div class="listitem"><h3>🍲 Cuisine & commandes</h3><p class="muted">Plats, snacks, boissons ou produits préparés sur commande.</p></div>
- <div class="listitem"><h3>📱 Services numériques</h3><p class="muted">Création de visuels, montage vidéo, gestion de pages ou rédaction.</p></div>
- <div class="listitem"><h3>🛍️ Commerce ciblé</h3><p class="muted">Vente de produits utiles avec précommandes pour limiter le stock.</p></div>
- <div class="listitem"><h3>🧹 Services de proximité</h3><p class="muted">Repérer un besoin dans son quartier et proposer un service pratique.</p></div>
- <div class="listitem"><h3>🎓 Formation & accompagnement</h3><p class="muted">Transmettre une compétence que tu maîtrises déjà.</p></div>
- <button class="full" onclick="go('talenti')">Développer une idée avec TALENTI</button>
-</section>
+ <main class="container">
+  <section class="hero">
+   <h1>Bienvenue sur ENDELEYA !</h1>
+   <p>Ton espace pour développer ton activité, trouver des clients et construire tes revenus.</p>
+  </section>
 
-<section class="page" id="income">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Générer des revenus</h2>
- <div class="panel"><h3>Tu veux démarrer ?</h3><p class="muted">Le but est de trouver une offre que quelqu'un est prêt à payer. Commence petit, teste, puis améliore.</p></div>
- <div class="listitem"><h3>1 · Identifie une compétence</h3><p class="muted">Qu'est-ce que tu sais faire ou apprendre rapidement ?</p></div>
- <div class="listitem"><h3>2 · Repère un besoin</h3><p class="muted">Qui a besoin de cette compétence ou de ce produit ?</p></div>
- <div class="listitem"><h3>3 · Prépare une offre</h3><p class="muted">Décris le service, son prix et le résultat attendu.</p></div>
- <div class="listitem"><h3>4 · Cherche ton premier client</h3><p class="muted">Contacte des personnes ou entreprises qui pourraient en avoir besoin.</p></div>
- <button class="full" onclick="go('talenti')">Préparer mon plan avec TALENTI</button>
-</section>
+  <div class="panel">
+   <div class="muted">Mon espace</div>
+   <h2 id="welcome">Bonjour !</h2>
+   <p class="muted">Chaque grande entreprise commence par une décision : avancer.</p>
+   <div class="grid">
+    <div class="stat"><strong id="countProducts">0</strong><span class="muted">Produits et services</span></div>
+    <div class="stat"><strong id="countContacts">0</strong><span class="muted">Clients et prospects</span></div>
+    <div class="stat"><strong id="countCampaigns">0</strong><span class="muted">Projets marketing</span></div>
+   </div>
+  </div>
 
-<section class="page" id="marketing">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Marketing & visibilité</h2>
- <div class="panel"><h3>Prépare ta communication</h3><textarea id="marketProduct" placeholder="Quel produit ou service veux-tu promouvoir ?"></textarea><textarea id="marketTarget" placeholder="À qui veux-tu le vendre ?"></textarea><button class="full" onclick="makePromo()">Préparer mon message</button><div id="promoOutput" class="muted" style="margin-top:15px"></div></div>
- <div class="listitem"><h3>📸 Photos claires</h3><p class="muted">Utilise des photos propres et montre ce que tu vends réellement.</p></div>
- <div class="listitem"><h3>📲 WhatsApp</h3><p class="muted">Facilite la prise de contact et la commande.</p></div>
- <div class="listitem"><h3>🎥 Vidéos courtes</h3><p class="muted">Montre le produit, les coulisses et le bénéfice.</p></div>
-</section>
+  <h2 class="section-title">Que souhaites-tu faire ?</h2>
+  <div class="grid">
+   <button class="tile" data-page="business"><span class="emoji">🏪</span><b>Mon Business</b><small>Créer et gérer mon entreprise</small></button>
+   <button class="tile" data-page="offerings"><span class="emoji">🛍️</span><b>Produits & services</b><small>Gérer mon catalogue</small></button>
+   <button class="tile" data-page="contacts"><span class="emoji">👥</span><b>Mes clients</b><small>Suivre mes contacts</small></button>
+   <button class="tile" data-page="marketing"><span class="emoji">📣</span><b>Marketing</b><small>Préparer mes campagnes</small></button>
+   <button class="tile" data-page="content"><span class="emoji">✍️</span><b>Mes contenus</b><small>Préparer mes publications</small></button>
+   <button class="tile" data-page="income"><span class="emoji">💰</span><b>Générer des revenus</b><small>Découvrir des opportunités</small></button>
+   <button class="tile" data-page="talenti"><span class="emoji">🤖</span><b>TALENTI</b><small>Mon assistant intelligent</small></button>
+   <button class="tile" data-page="profile"><span class="emoji">👤</span><b>Mon profil</b><small>Mes informations personnelles</small></button>
+  </div>
 
-<section class="page" id="clients">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Mes Clients</h2>
- <div class="panel"><input id="clientName" placeholder="Nom du client"><input id="clientPhone" placeholder="Téléphone"><button class="full" onclick="addClient()">Ajouter le contact</button></div>
- <div id="clientList"></div>
-</section>
+  <nav class="nav hidden" id="backNav">
+   <button class="active" data-page="home">Accueil</button>
+   <button data-page="business">Business</button>
+   <button data-page="offerings">Catalogue</button>
+   <button data-page="contacts">Clients</button>
+   <button data-page="marketing">Marketing</button>
+   <button data-page="talenti">TALENTI</button>
+  </nav>
 
-<section class="page" id="content">
- <button class="back" onclick="go('home')">← Accueil</button><h2>Mes contenus</h2>
- <div class="panel"><input id="contentTopic" placeholder="Sujet de publication"><select id="contentType"><option>Post Facebook</option><option>Publication Instagram</option><option>Vidéo TikTok</option><option>Statut WhatsApp</option></select><textarea id="contentBrief" placeholder="Quelques détails, ton, public..."></textarea><button class="full" onclick="prepareContent()">Préparer mon contenu</button><div id="contentOutput" class="muted" style="margin-top:15px"></div></div>
-</section>
+  <!-- BUSINESS -->
+  <section class="page hidden" id="page-business">
+   <h2 class="section-title">Mon entreprise</h2>
+   <div class="panel">
+    <label>Nom de l'entreprise</label><input id="bizName" placeholder="Nom de mon activité">
+    <label>Catégorie</label>
+    <select id="bizCategory">
+     <option value="">Choisir une catégorie</option>
+     <option>Commerce</option><option>Alimentation</option><option>Mode et beauté</option>
+     <option>Technologie</option><option>Services</option><option>Artisanat</option>
+     <option>Restauration</option><option>Autre</option>
+    </select>
+    <label>Description</label><textarea id="bizDescription" placeholder="Présente ton activité"></textarea>
+    <label>Téléphone</label><input id="bizPhone" placeholder="+243...">
+    <label>WhatsApp</label><input id="bizWhatsapp" placeholder="+243...">
+    <label>Ville</label><input id="bizCity" value="Lubumbashi">
+    <label>Adresse</label><input id="bizAddress" placeholder="Adresse de l'activité">
+    <button class="btn" id="saveBusiness">Enregistrer mon entreprise</button>
+    <p class="muted" id="bizMessage"></p>
+   </div>
+   <div class="panel"><h3>Mon entreprise enregistrée</h3><div id="businessList"></div></div>
+  </section>
 
-<section class="page" id="talenti">
- <button class="back" onclick="go('home')">← Accueil</button><h2>✨ TALENTI</h2>
- <div class="panel"><p class="muted">Assistant business ENDELEYA. Prépare ici ta demande.</p><textarea id="talentiInput" placeholder="Ex. J'ai 50$ et je veux lancer un petit business..."></textarea><button class="full" onclick="talentiDemo()">Envoyer</button><div id="talentiOutput" style="margin-top:15px;line-height:1.6"></div><p class="muted" style="margin-top:12px">La véritable IA sera connectée dans une prochaine étape. Ce formulaire ne génère pas encore de réponse IA.</p></div>
-</section>
-</main>
+  <!-- CATALOGUE -->
+  <section class="page hidden" id="page-offerings">
+   <h2 class="section-title">Produits et services</h2>
+   <div class="panel">
+    <label>Nom</label><input id="offerName" placeholder="Nom du produit ou service">
+    <label>Type</label><select id="offerType"><option value="product">Produit</option><option value="service">Service</option></select>
+    <label>Description</label><textarea id="offerDescription"></textarea>
+    <label>Prix</label><input id="offerPrice" type="number" min="0" placeholder="Prix">
+    <label>Devise</label><select id="offerCurrency"><option>USD</option><option>CDF</option></select>
+    <button class="btn" id="saveOffer">Ajouter au catalogue</button>
+    <p class="muted" id="offerMessage"></p>
+   </div>
+   <div class="panel"><h3>Mon catalogue</h3><div id="offerList"></div></div>
+  </section>
 
-<nav>
- <button onclick="go('home')"><span>🏠</span>Accueil</button>
- <button onclick="go('business')"><span>🏪</span>Business</button>
- <button onclick="go('ideas')"><span>💡</span>Idées</button>
- <button onclick="go('income')"><span>💰</span>Revenus</button>
- <button onclick="go('talenti')"><span>✨</span>TALENTI</button>
-</nav>
-<footer>ENDELEYA · Avance. Développe. Réussis.</footer>
+  <!-- CONTACTS -->
+  <section class="page hidden" id="page-contacts">
+   <h2 class="section-title">Clients et prospects</h2>
+   <div class="panel">
+    <label>Nom complet</label><input id="contactName" placeholder="Nom du contact">
+    <label>Téléphone</label><input id="contactPhone" placeholder="+243...">
+    <label>E-mail</label><input id="contactEmail" type="email" placeholder="Adresse e-mail">
+    <label>Type de contact</label>
+    <select id="contactType"><option value="prospect">Prospect</option><option value="client">Client</option></select>
+    <label>Notes</label><textarea id="contactNotes" placeholder="Informations utiles"></textarea>
+    <button class="btn" id="saveContact">Enregistrer le contact</button>
+    <p class="muted" id="contactMessage"></p>
+   </div>
+   <div class="panel"><h3>Mes contacts</h3><div id="contactList"></div></div>
+  </section>
+
+  <!-- MARKETING -->
+  <section class="page hidden" id="page-marketing">
+   <h2 class="section-title">Marketing et promotion</h2>
+   <div class="panel">
+    <label>Nom du projet</label><input id="campaignTitle" placeholder="Ex : Promotion de fin de mois">
+    <label>Objectif</label>
+    <select id="campaignObjective"><option>Vendre davantage</option><option>Faire connaître mon activité</option><option>Attirer de nouveaux clients</option><option>Fidéliser mes clients</option></select>
+    <label>Public cible</label><input id="campaignAudience" placeholder="Ex : jeunes actifs, familles...">
+    <label>Idée ou contenu de la campagne</label><textarea id="campaignContent"></textarea>
+    <button class="btn" id="saveCampaign">Enregistrer le projet</button>
+    <p class="muted" id="campaignMessage"></p>
+   </div>
+   <div class="panel"><h3>Mes projets marketing</h3><div id="campaignList"></div></div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="page hidden" id="page-content">
+   <h2 class="section-title">Préparer mes contenus</h2>
+   <div class="panel">
+    <label>Sujet de publication</label><input id="contentTopic" placeholder="De quoi veux-tu parler ?">
+    <label>Type de contenu</label>
+    <select id="contentType"><option>Publication Facebook</option><option>Publication Instagram</option><option>Vidéo TikTok</option><option>Statut WhatsApp</option><option>Annonce publicitaire</option></select>
+    <label>Informations à inclure</label><textarea id="contentBrief" placeholder="Présente ton produit, ton offre, ton objectif..."></textarea>
+    <button class="btn" id="prepareContent">Préparer mon brief</button>
+    <div id="contentOutput" class="item hidden"></div>
+   </div>
+  </section>
+
+  <!-- INCOME -->
+  <section class="page hidden" id="page-income">
+   <h2 class="section-title">Je génère des revenus</h2>
+   <div class="hero">
+    <h2>Ton idée peut devenir une activité.</h2>
+    <p>Explore des pistes pour commencer avec les moyens dont tu disposes.</p>
+   </div>
+   <div class="panel">
+    <h3>Quelques pistes d'activités</h3>
+    <div class="item"><b>Commerce de proximité</b><p class="muted">Identifier les produits recherchés dans ton quartier et commencer avec un petit stock.</p></div>
+    <div class="item"><b>Services numériques</b><p class="muted">Proposer la création de visuels, la gestion de pages ou la rédaction de contenus aux petites entreprises.</p></div>
+    <div class="item"><b>Transformation alimentaire</b><p class="muted">Transformer des produits locaux en formats pratiques et prêts à utiliser.</p></div>
+    <div class="item"><b>Services à domicile</b><p class="muted">Étudier les besoins des ménages : nettoyage, livraison, entretien et assistance.</p></div>
+    <p class="muted">Ces pistes sont des idées de départ, pas une garantie de revenus. Étudie la demande, les coûts et la concurrence avant d'investir.</p>
+   </div>
+  </section>
+
+  <!-- TALENTI -->
+  <section class="page hidden" id="page-talenti">
+   <h2 class="section-title">TALENTI – Ton assistant</h2>
+   <div class="hero">
+    <h2>Réfléchissons ensemble à ton prochain progrès.</h2>
+    <p>TALENTI est l'assistant intégré d'ENDELEYA.</p>
+   </div>
+   <div class="panel">
+    <p>Tu peux préparer une question ou un besoin à soumettre à TALENTI.</p>
+    <label>Ta question</label>
+    <textarea id="talentiQuestion" placeholder="Ex : Comment trouver mes 10 premiers clients ?"></textarea>
+    <button class="btn" id="talentiPrepare">Préparer ma demande</button>
+    <div id="talentiResult" class="item hidden"></div>
+    <p class="muted">L'intelligence artificielle n'est pas encore connectée. Cette interface prépare la prochaine intégration sécurisée du moteur IA.</p>
+   </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="page hidden" id="page-profile">
+   <h2 class="section-title">Mon profil</h2>
+   <div class="panel">
+    <label>Nom complet</label><input id="profileName">
+    <label>Téléphone</label><input id="profilePhone">
+    <label>Pays</label><input id="profileCountry" value="RDC">
+    <label>Ville</label><input id="profileCity" value="Lubumbashi">
+    <button class="btn" id="saveProfile">Enregistrer mon profil</button>
+    <p id="profileMessage" class="muted"></p>
+   </div>
+   <div class="panel"><p class="muted">Ton adresse e-mail de connexion</p><b id="profileEmail"></b></div>
+  </section>
+
+  <section class="page" id="page-home"></section>
+ </main>
+ <footer>ENDELEYA © 2026 · Avance. Développe. Réussis.</footer>
+</div>
 
 <script>
-function go(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- window.scrollTo(0,0);
-}
-function saveBusiness(){
- const data={name:bizname.value,category:bizcategory.value,desc:bizdesc.value,phone:bizphone.value};
- if(!data.name.trim()){alert("Entre le nom de ton activité.");return}
- localStorage.setItem("endeleya_business",JSON.stringify(data));
- renderBusiness(data);
- alert("Activité enregistrée sur cet appareil.");
-}
-function renderBusiness(d){
- businessSaved.innerHTML="<b>"+esc(d.name)+"</b><p>"+esc(d.category)+"</p><p>"+esc(d.desc)+"</p><p>"+esc(d.phone)+"</p>";
-}
-function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-const saved=localStorage.getItem("endeleya_business");
-if(saved){renderBusiness(JSON.parse(saved))}
-function addClient(){
- const n=clientName.value.trim(),p=clientPhone.value.trim();
- if(!n){alert("Ajoute le nom du client.");return}
- let arr=JSON.parse(localStorage.getItem("endeleya_clients")||"[]");
- arr.push({n,p});localStorage.setItem("endeleya_clients",JSON.stringify(arr));
- clientName.value="";clientPhone.value="";renderClients();
-}
-function renderClients(){
- let arr=JSON.parse(localStorage.getItem("endeleya_clients")||"[]");
- clientList.innerHTML=arr.map(c=>'<div class="listitem"><b>'+esc(c.n)+'</b><p>'+esc(c.p)+'</p></div>').join("");
-}
-renderClients();
-function makePromo(){
- let p=marketProduct.value.trim(),t=marketTarget.value.trim();
- if(!p){alert("Décris le produit ou service.");return}
- promoOutput.textContent="Prépare une offre claire pour "+p+". Public visé : "+(t||"à définir")+". Mets en avant un bénéfice concret, ajoute un prix et un moyen de commande. (Génération IA à connecter.)";
-}
-function prepareContent(){
- let topic=contentTopic.value.trim();if(!topic){alert("Entre un sujet.");return}
- contentOutput.textContent="Brief prêt : "+topic+". Format : "+contentType.value+". Détails : "+contentBrief.value+". La rédaction automatique sera connectée à TALENTI.";
-}
-function talentiDemo(){
- let q=talentiInput.value.trim();if(!q){alert("Écris ta demande.");return}
- talentiOutput.textContent="Demande enregistrée dans le formulaire : "+q+". TALENTI attend encore sa connexion à un modèle IA pour pouvoir répondre.";
-}
-</script>
- 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+(() => {
+"use strict";
+
 const SUPABASE_URL = "https://ivtfziwtpfuydrmndhyc.supabase.co";
 const SUPABASE_KEY = "sb_publishable_uaVZR3Tzq-ndBtqg7oMCTw_t4UJFkxY";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const $ = id => document.getElementById(id);
+let user = null;
+let business = null;
+let currentPage = "home";
 
-async function inscrireUtilisateur(nom, email, motDePasse) {
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: motDePasse,
-    options: {
-      data: { full_name: nom }
-    }
+function say(id, text, error=false) {
+ const node = $(id);
+ if(node) {
+  node.textContent = text;
+  node.style.color = error ? "#CE1028" : "#16803c";
+ }
+}
+
+function value(id){return $(id).value.trim();}
+
+function escapeHTML(str){
+ return String(str ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function showPage(page){
+ currentPage=page;
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ const target=$("page-"+page);
+ if(target)target.classList.remove("hidden");
+ $("backNav").classList.toggle("hidden",page==="home");
+ document.querySelectorAll("[data-page]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===page);
+ });
+ window.scrollTo(0,0);
+}
+
+document.addEventListener("click",e=>{
+ const button=e.target.closest("[data-page]");
+ if(button)showPage(button.dataset.page);
+});
+
+let registering=false;
+
+$("switchAuth").onclick=()=>{
+ registering=!registering;
+ $("nameField").classList.toggle("hidden",!registering);
+ $("authTitle").textContent=registering?"Créer mon compte":"Bienvenue !";
+ $("authInfo").textContent=registering?"Rejoins gratuitement ENDELEYA.":"Connecte-toi à ton espace.";
+ $("authSubmit").textContent=registering?"Créer mon compte":"Se connecter";
+ $("switchText").textContent=registering?"Déjà inscrit ?":"Pas encore de compte ?";
+ $("switchAuth").textContent=registering?"Se connecter":"Créer un compte";
+ say("message","");
+};
+
+$("authSubmit").onclick=async()=>{
+ const email=value("email");
+ const password=$("password").value;
+ const name=value("fullName");
+
+ if(!email||!password||(registering&&!name)){
+  say("message","Remplis tous les champs.",true);return;
+ }
+ if(password.length<6){
+  say("message","Le mot de passe doit contenir au moins 6 caractères.",true);return;
+ }
+
+ $("authSubmit").disabled=true;
+ say("message","Connexion en cours...");
+
+ try{
+  if(registering){
+   const {data,error}=await db.auth.signUp({
+    email,password,
+    options:{data:{full_name:name}}
+   });
+   if(error)throw error;
+   if(data.session){
+    user=data.user;await enterApp();
+   }else{
+    say("message","Compte créé ! Vérifie tes e-mails pour confirmer ton adresse avant de te connecter.");
+   }
+  }else{
+   const {data,error}=await db.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   user=data.user;await enterApp();
+  }
+ }catch(e){say("message",e.message,true);}
+ finally{$("authSubmit").disabled=false;}
+};
+
+$("forgot").onclick=async()=>{
+ const email=value("email");
+ if(!email){say("message","Saisis d'abord ton adresse e-mail.",true);return;}
+ try{
+  const {error}=await db.auth.resetPasswordForEmail(email,{
+   redirectTo:location.origin+location.pathname
   });
+  if(error)throw error;
+  say("message","Si cette adresse est enregistrée, tu recevras un lien de réinitialisation.");
+ }catch(e){say("message",e.message,true);}
+};
 
-  if (error) throw error;
-  return data;
+$("logout").onclick=async()=>{
+ const {error}=await db.auth.signOut();
+ if(error){alert(error.message);return;}
+ location.reload();
+};
+
+async function enterApp(){
+ $("auth").classList.add("hidden");
+ $("app").classList.remove("hidden");
+ $("welcome").textContent="Bonjour, "+(user.user_metadata?.full_name||user.email)+" !";
+ $("profileEmail").textContent=user.email||"";
+ await loadAll();
+ showPage("home");
 }
 
-async function connecterUtilisateur(email, motDePasse) {
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: motDePasse
+async function loadBusiness(){
+ const {data,error}=await db.from("businesses")
+  .select("*").eq("owner_id",user.id).order("created_at",{ascending:false});
+ if(error)throw error;
+ business=data?.[0]||null;
+ $("businessList").innerHTML=business?
+  `<div class="item"><b>${escapeHTML(business.name)}</b>
+   <p class="muted">${escapeHTML(business.category||"")} · ${escapeHTML(business.city||"")}</p>
+   ${escapeHTML(business.description||"")}
+   </div>`:"<p class='muted'>Aucune entreprise enregistrée pour le moment.</p>";
+ if(business){
+  $("bizName").value=business.name||"";
+  $("bizCategory").value=business.category||"";
+  $("bizDescription").value=business.description||"";
+  $("bizPhone").value=business.phone||"";
+  $("bizWhatsapp").value=business.whatsapp||"";
+  $("bizCity").value=business.city||"Lubumbashi";
+  $("bizAddress").value=business.address||"";
+ }
+}
+
+async function requireBusiness(){
+ if(!business)throw new Error("Crée d'abord ton entreprise dans la rubrique Mon Business.");
+ return business;
+}
+
+$("saveBusiness").onclick=async()=>{
+ const name=value("bizName");
+ if(!name){say("bizMessage","Le nom de l'entreprise est obligatoire.",true);return;}
+ const record={
+  owner_id:user.id,name,
+  category:value("bizCategory"),
+  description:value("bizDescription"),
+  phone:value("bizPhone"),
+  whatsapp:value("bizWhatsapp"),
+  city:value("bizCity"),
+  address:value("bizAddress")
+ };
+ try{
+  const result=business?
+   await db.from("businesses").update(record).eq("id",business.id).select().single():
+   await db.from("businesses").insert(record).select().single();
+  if(result.error)throw result.error;
+  business=result.data;
+  say("bizMessage","Entreprise enregistrée avec succès.");
+  await loadAll();
+ }catch(e){say("bizMessage",e.message,true);}
+};
+
+async function loadOfferings(){
+ if(!business){$("offerList").innerHTML="<p class='muted'>Crée d'abord ton entreprise.</p>";return;}
+ const {data,error}=await db.from("offerings").select("*")
+  .eq("business_id",business.id).order("created_at",{ascending:false});
+ if(error)throw error;
+ $("offerList").innerHTML=data.length?data.map(x=>`
+  <div class="item">
+   <b>${escapeHTML(x.name)}</b>
+   <p class="muted">${x.item_type==="service"?"Service":"Produit"} · ${escapeHTML(x.price)} ${escapeHTML(x.currency)}</p>
+   <p>${escapeHTML(x.description||"")}</p>
+   <button class="btn red" data-delete="offerings" data-id="${x.id}">Supprimer</button>
+  </div>`).join(""):"<p class='muted'>Ton catalogue est vide.</p>";
+ $("countProducts").textContent=data.length;
+}
+
+$("saveOffer").onclick=async()=>{
+ try{
+  await requireBusiness();
+  const name=value("offerName");
+  if(!name)throw new Error("Indique le nom du produit ou service.");
+  const {error}=await db.from("offerings").insert({
+   business_id:business.id,name,
+   item_type:value("offerType"),
+   description:value("offerDescription"),
+   price:Number(value("offerPrice")||0),
+   currency:value("offerCurrency")
   });
+  if(error)throw error;
+  ["offerName","offerDescription","offerPrice"].forEach(id=>$(id).value="");
+  say("offerMessage","Élément ajouté au catalogue.");
+  await loadOfferings();
+ }catch(e){say("offerMessage",e.message,true);}
+};
 
-  if (error) throw error;
-  return data;
+async function loadContacts(){
+ if(!business){$("contactList").innerHTML="<p class='muted'>Crée d'abord ton entreprise.</p>";return;}
+ const {data,error}=await db.from("contacts").select("*")
+  .eq("business_id",business.id).order("created_at",{ascending:false});
+ if(error)throw error;
+ $("contactList").innerHTML=data.length?data.map(x=>`
+  <div class="item">
+   <b>${escapeHTML(x.full_name)}</b>
+   <p class="muted">${x.contact_type==="client"?"Client":"Prospect"} · ${escapeHTML(x.phone||"")}</p>
+   ${escapeHTML(x.notes||"")}
+   <div class="actions">
+    <button class="btn light" data-promote="${x.id}">Marquer client</button>
+    <button class="btn red" data-delete="contacts" data-id="${x.id}">Supprimer</button>
+   </div>
+  </div>`).join(""):"<p class='muted'>Aucun contact enregistré.</p>";
+ $("countContacts").textContent=data.length;
 }
 
-async function deconnecterUtilisateur() {
-  const { error } = await supabaseClient.auth.signOut();
-  if (error) throw error;
-  location.reload();
+$("saveContact").onclick=async()=>{
+ try{
+  await requireBusiness();
+  const name=value("contactName");
+  if(!name)throw new Error("Indique le nom du contact.");
+  const {error}=await db.from("contacts").insert({
+   business_id:business.id,full_name:name,
+   phone:value("contactPhone"),email:value("contactEmail"),
+   contact_type:value("contactType"),notes:value("contactNotes")
+  });
+  if(error)throw error;
+  ["contactName","contactPhone","contactEmail","contactNotes"].forEach(id=>$(id).value="");
+  say("contactMessage","Contact enregistré.");
+  await loadContacts();
+ }catch(e){say("contactMessage",e.message,true);}
+};
+
+async function loadCampaigns(){
+ if(!business){$("campaignList").innerHTML="<p class='muted'>Crée d'abord ton entreprise.</p>";return;}
+ const {data,error}=await db.from("marketing_projects").select("*")
+  .eq("business_id",business.id).order("created_at",{ascending:false});
+ if(error)throw error;
+ $("campaignList").innerHTML=data.length?data.map(x=>`
+  <div class="item"><b>${escapeHTML(x.title)}</b>
+   <p class="muted">${escapeHTML(x.objective||"")} · ${escapeHTML(x.target_audience||"")}</p>
+   ${escapeHTML(x.content||"")}
+   <p class="muted">Statut : ${escapeHTML(x.status)}</p>
+   <button class="btn red" data-delete="marketing_projects" data-id="${x.id}">Supprimer</button>
+  </div>`).join(""):"<p class='muted'>Aucun projet marketing.</p>";
+ $("countCampaigns").textContent=data.length;
 }
 
-async function verifierConnexion() {
-  const { data, error } = await supabaseClient.auth.getSession();
-  if (error) throw error;
-  return data.session;
+$("saveCampaign").onclick=async()=>{
+ try{
+  await requireBusiness();
+  const title=value("campaignTitle");
+  if(!title)throw new Error("Donne un titre à ton projet.");
+  const {error}=await db.from("marketing_projects").insert({
+   business_id:business.id,title,
+   objective:value("campaignObjective"),
+   target_audience:value("campaignAudience"),
+   content:value("campaignContent")
+  });
+  if(error)throw error;
+  ["campaignTitle","campaignAudience","campaignContent"].forEach(id=>$(id).value="");
+  say("campaignMessage","Projet marketing enregistré.");
+  await loadCampaigns();
+ }catch(e){say("campaignMessage",e.message,true);}
+};
+
+document.addEventListener("click",async e=>{
+ const del=e.target.closest("[data-delete]");
+ if(del){
+  if(!confirm("Supprimer cet élément ?"))return;
+  const table=del.dataset.delete;
+  try{
+   const {error}=await db.from(table).delete().eq("id",del.dataset.id);
+   if(error)throw error;
+   await loadAll();
+  }catch(err){alert(err.message);}
+ }
+ const promote=e.target.closest("[data-promote]");
+ if(promote){
+  try{
+   const {error}=await db.from("contacts").update({contact_type:"client"})
+    .eq("id",promote.dataset.promote);
+   if(error)throw error;
+   await loadContacts();
+  }catch(err){alert(err.message);}
+ }
+});
+
+$("prepareContent").onclick=()=>{
+ const topic=value("contentTopic"),brief=value("contentBrief");
+ if(!topic){alert("Indique le sujet de ta publication.");return;}
+ $("contentOutput").classList.remove("hidden");
+ $("contentOutput").innerHTML="<b>Ton brief de création</b><p><b>Sujet :</b> "+escapeHTML(topic)+
+ "</p><p><b>Format :</b> "+escapeHTML(value("contentType"))+
+ "</p><p><b>Informations :</b> "+escapeHTML(brief)+
+ "</p><p class='muted'>Brief préparé. La génération automatique de textes sera disponible après la connexion de TALENTI.</p>";
+};
+
+$("talentiPrepare").onclick=()=>{
+ const question=value("talentiQuestion");
+ if(!question){alert("Écris ta question.");return;}
+ $("talentiResult").classList.remove("hidden");
+ $("talentiResult").innerHTML="<b>Demande préparée pour TALENTI</b><p>"+escapeHTML(question)+
+ "</p><p class='muted'>L'assistant IA n'est pas encore connecté. Cette demande pourra être envoyée au moteur IA lors de son intégration sécurisée.</p>";
+};
+
+$("saveProfile").onclick=async()=>{
+ try{
+  const {error}=await db.from("profiles").upsert({
+   id:user.id,full_name:value("profileName"),
+   phone:value("profilePhone"),country:value("profileCountry"),
+   city:value("profileCity")
+  });
+  if(error)throw error;
+  say("profileMessage","Profil enregistré.");
+  $("welcome").textContent="Bonjour, "+value("profileName")+" !";
+ }catch(e){say("profileMessage",e.message,true);}
+};
+
+async function loadProfile(){
+ const {data,error}=await db.from("profiles").select("*").eq("id",user.id).maybeSingle();
+ if(error)throw error;
+ if(data){
+  $("profileName").value=data.full_name||user.user_metadata?.full_name||"";
+  $("profilePhone").value=data.phone||"";
+  $("profileCountry").value=data.country||"RDC";
+  $("profileCity").value=data.city||"Lubumbashi";
+ }else{
+  $("profileName").value=user.user_metadata?.full_name||"";
+ }
 }
+
+async function loadAll(){
+ try{
+  await loadProfile();
+  await loadBusiness();
+  await Promise.all([loadOfferings(),loadContacts(),loadCampaigns()]);
+ }catch(e){
+  console.error(e);
+  alert("Erreur de chargement : "+e.message);
+ }
+}
+
+db.auth.onAuthStateChange((event,session)=>{
+ if(event==="PASSWORD_RECOVERY"){
+  alert("Tu peux maintenant réinitialiser ton mot de passe depuis le lien reçu par e-mail.");
+ }
+});
+
+async function start(){
+ try{
+  const {data,error}=await db.auth.getSession();
+  if(error)throw error;
+  if(data.session){
+   user=data.session.user;
+   await enterApp();
+  }
+ }catch(e){
+  say("message","Connexion à Supabase impossible : "+e.message,true);
+ }
+}
+start();
+
+})();
 </script>
-</body>
-</html>
-
 </body>
 </html>
