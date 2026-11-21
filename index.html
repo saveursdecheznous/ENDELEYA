@@ -190,5 +190,54 @@ function talentiDemo(){
  talentiOutput.textContent="Demande enregistrée dans le formulaire : "+q+". TALENTI attend encore sa connexion à un modèle IA pour pouvoir répondre.";
 }
 </script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://ivtfziwtpfuydrmndhyc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_uaVZR3Tzq-ndBtqg7oMCTw_t4UJFkxY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function inscrireUtilisateur(nom, email, motDePasse) {
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: motDePasse,
+    options: {
+      data: { full_name: nom }
+    }
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+async function connecterUtilisateur(email, motDePasse) {
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: motDePasse
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+async function deconnecterUtilisateur() {
+  const { error } = await supabaseClient.auth.signOut();
+  if (error) throw error;
+  location.reload();
+}
+
+async function verifierConnexion() {
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (error) throw error;
+  return data.session;
+}
+</script>
+</body>
+</html>
+
 </body>
 </html>
