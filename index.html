@@ -33,7 +33,6 @@ textarea{min-height:90px;resize:vertical}label{font-size:13px;font-weight:bold;d
 </style>
 </head>
 <body>
-
 <section id="auth">
  <div class="auth-card">
   <h1>ENDELEYA</h1><p class="tag">Avance. Développe. Réussis.</p>
@@ -147,7 +146,7 @@ textarea{min-height:90px;resize:vertical}label{font-size:13px;font-weight:bold;d
 (() => {
 "use strict";
 const SUPABASE_URL = "https://ivtfziwtpfuydrmndhyc.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dGZ6aXd0cGZ1eWRybW5kaHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMjg2MTksImV4Iiwi";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dGZ6aXd0cGZ1eWRybW5kaHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMjg2MTksImV4cCI6MjExMDgwNDYxOX0.9IW3VsaOWfNjC8OHo3p9CD1wSlyTtdwH-6RXyFj68LI";
 const $ = id => document.getElementById(id);
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let user = null, business = null, registering = false;
@@ -241,7 +240,7 @@ async function callTalenti(prompt){
  const {data,error}=await db.functions.invoke("talenti",{body:{prompt}});
  if(error)throw new Error(error.message||"Connexion à TALENTI impossible.");
  if(data?.error)throw new Error(data.error);
- return String(data?.answer||data?.response||data?.content||data?.reply||data?.message||"").trim()||"TALENTI n’a pas renvoyé de réponse.";
+ return String(data?.reply||data?.message||"").trim()||"TALENTI n’a pas renvoyé de réponse.";
 }
 $("prepareContent").onclick=async()=>{
  const topic=value("contentTopic");if(!topic){alert("Indique le sujet de ta publication.");return;}
