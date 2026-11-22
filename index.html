@@ -146,7 +146,7 @@ textarea{min-height:90px;resize:vertical}label{font-size:13px;font-weight:bold;d
 (() => {
 "use strict";
 const SUPABASE_URL = "https://ivtfziwtpfuydrmndhyc.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dGZ6aXd0cGZ1eWRybW5kaHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMjg2MTksImV4cCI6MjExMDgwNDYxOX0.9IW3VsaOWfNjC8OHo3p9CD1wSlyTtdwH-6RXyFj68LI";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dGZ6aXd0cGZ1ZWRybW5kaHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMjg2MTksImV4cCI6MjExMDgwNDYxOX0.9IW3VsaOWfNjC8OHo3p9CD1wSlyTtdwH-6RXyFj68LI";
 const $ = id => document.getElementById(id);
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let user = null, business = null, registering = false;
